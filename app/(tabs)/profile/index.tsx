@@ -1,13 +1,16 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthProvider";
-import { getUserById } from "../../../services/userService";
+import { getRefreshToken, getToken } from "../../../services/tokenService";
+import { getUser, getUserById } from "../../../services/userService";
+import { useLocalSearchParams } from "expo-router";
 
 export default function index() {
-  const { setAuthenticated, userId } = useAuth();
+  const { logout, setAuthenticated, userId } = useAuth();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
+  // Mengambil data user berdasarkan userId yang didapat dari AuthProvider
   useEffect(() => {
     const getUserData = async () => {
       if (!userId) {
@@ -30,17 +33,32 @@ export default function index() {
     getUserData();
   }, [userId, setAuthenticated]);
 
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await logout();
+    } catch (error: any) {
+      console.error("Logout failed", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View>
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : user ? (
+      {user ? (
         <View>
-          <Text>Selamat pagi {user.username}</Text>
+          <Text>Profile</Text>
+          <Text>Username: {user.username}</Text>
+          <Text>Email: {user.email}</Text>
         </View>
       ) : (
-        <Text>User not found</Text>
+        <Text>Loading...</Text>
       )}
+
+      <TouchableOpacity onPress={handleLogout} disabled={loading}>
+        <Text>{loading ? "Loading..." : "Logout"}</Text>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store";
 
 export const setToken = async (token: string) => {
   await SecureStore.setItemAsync("token", token);
+  console.log("Token saved to SecureStore:", token); // Log token yang disimpan
 };
 
 export const removeToken = async () => {
@@ -10,7 +11,9 @@ export const removeToken = async () => {
 
 export const getToken = async () => {
   try {
-    return await SecureStore.getItemAsync("token");
+    const token = await SecureStore.getItemAsync("token");
+    console.log("Retrive: ", token);
+    return token;
   } catch (error: any) {
     console.error("Failed to get token", error);
     return null;

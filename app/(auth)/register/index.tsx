@@ -3,8 +3,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { useAuth } from "../../../contexts/AuthProvider";
@@ -12,26 +12,34 @@ import { getRefreshToken, getToken } from "../../../services/tokenService";
 import { router } from "expo-router";
 
 export default function index() {
-  const { login } = useAuth();
+  const { register } = useAuth();
 
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     setLoading(true);
     setError("");
-    if (!username || !password) {
-      setError("Username dan password harus diisi.");
+    if (!email || !username || !password || !confirmPassword) {
+      setError("Semua kolom harus diisi.");
+      setLoading(false);
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Password dan konfirmasi password tidak sama.");
       setLoading(false);
       return;
     }
     try {
-      await login(username, password);
+      const response = await register(email, username, password);
+      console.log("Register success", response);
     } catch (error: any) {
-      console.error("Login failed di UI", error.message);
-      setError(error.message);
+      console.error("Register failed di UI", error.message); // Log error ke konsol
+      setError(error.message); // Set error message dari API
     } finally {
       setLoading(false);
     }
@@ -78,8 +86,19 @@ export default function index() {
                 marginBottom: 8,
               }}
             >
-              Selamat datang kembali!
+              Daftarkan diri anda
             </Text>
+            <TextInput
+              style={{
+                backgroundColor: "#FFFFFF",
+                borderRadius: 12,
+                height: 52,
+                padding: 12,
+              }}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+            />
             <TextInput
               style={{
                 backgroundColor: "#FFFFFF",
@@ -103,6 +122,18 @@ export default function index() {
               onChangeText={setPassword}
               secureTextEntry
             />
+            <TextInput
+              style={{
+                backgroundColor: "#FFFFFF",
+                borderRadius: 12,
+                height: 52,
+                padding: 12,
+              }}
+              placeholder="Konfirmasi Password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry
+            />
 
             {error ? (
               <Text style={{ color: "red", marginVertical: -8 }}>{error}</Text>
@@ -117,7 +148,7 @@ export default function index() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onPress={handleLogin}
+              onPress={handleRegister}
               disabled={loading}
             >
               <Text style={{ color: "#fff" }}>
@@ -132,9 +163,9 @@ export default function index() {
                 justifyContent: "space-between",
               }}
             >
-              <Text>Belum punya akun? </Text>
-              <TouchableOpacity onPress={() => router.push("(auth)/register")}>
-                <Text style={{ color: "#40534C" }}>Registrasi</Text>
+              <Text>Sudah punya akun? </Text>
+              <TouchableOpacity onPress={() => router.push("(auth)/login")}>
+                <Text style={{ color: "#40534C" }}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>

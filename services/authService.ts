@@ -6,18 +6,38 @@ import {
   removeRefreshToken,
 } from "./tokenService";
 
+export const register = async (
+  email: string,
+  username: string,
+  password: string
+) => {
+  try {
+    const response = await instance.post("/auth/register", {
+      email,
+      username,
+      password,
+    });
+
+    const res = response.data;
+
+    return res;
+  } catch (error: any) {
+    // Ambil pesan kesalahan dari respons API
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message); // Melempar pesan kesalahan dari API
+    } else {
+      throw new Error("Register failed"); // Pesan kesalahan umum jika tidak ada respons
+    }
+  }
+};
+
 export const login = async (username: string, password: string) => {
   try {
     const response = await instance.post("/auth/login", { username, password });
 
     const res = response.data;
-    console.log("Login success", res);
-
-    await setToken(res.data.token); // Simpan token ke SecureStore
-    console.log("Token: ", res.data.token);
-
-    await setRefreshToken(res.data.refreshToken); // Simpan refresh token ke SecureStore
-    console.log("Refresh Token: ", res.data.refreshToken);
+    await setToken(res.data.token);
+    await setRefreshToken(res.data.refreshToken);
 
     return res;
   } catch (error) {
