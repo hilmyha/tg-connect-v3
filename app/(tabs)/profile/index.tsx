@@ -1,9 +1,21 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  ScrollViewBase,
+  SafeAreaView,
+  Alert,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthProvider";
 import { getRefreshToken, getToken } from "../../../services/tokenService";
 import { getUser, getUserById } from "../../../services/userService";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { color, global, tabScreen } from "../../../constant";
+import { Ionicons } from "@expo/vector-icons";
+import ProfileHeader from "../../../components/ProfileHeader";
+import SecondaryButton from "../../../components/SecondaryButton";
 
 export default function index() {
   const { logout, setAuthenticated, userId } = useAuth();
@@ -36,7 +48,19 @@ export default function index() {
   const handleLogout = async () => {
     setLoading(true);
     try {
-      await logout();
+      // make alert to confirm logout
+      Alert.alert("Logout", "Apakah anda yakin ingin keluar?", [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Logout",
+          onPress: async () => {
+            await logout();
+          },
+        },
+      ]);
     } catch (error: any) {
       console.error("Logout failed", error);
     } finally {
@@ -45,20 +69,34 @@ export default function index() {
   };
 
   return (
-    <View>
-      {user ? (
-        <View>
-          <Text>Profile</Text>
-          <Text>Username: {user.username}</Text>
-          <Text>Email: {user.email}</Text>
-        </View>
-      ) : (
-        <Text>Loading...</Text>
-      )}
+    <SafeAreaView style={[global.background, { flex: 1 }]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <ProfileHeader user={user} />
+        <View style={global.container}>
+          {user ? (
+            <View>
+              <Text>Profile</Text>
+              <Text>Username: {user.username}</Text>
+              <Text>Email: {user.email}</Text>
+            </View>
+          ) : (
+            <Text>Loading...</Text>
+          )}
 
-      <TouchableOpacity onPress={handleLogout} disabled={loading}>
-        <Text>{loading ? "Loading..." : "Logout"}</Text>
-      </TouchableOpacity>
-    </View>
+          <Text style={global.textSecondary}>Administrator</Text>
+
+          <SecondaryButton
+            onPress={handleLogout}
+            title="Logout"
+            iconName="exit"
+            color={color.red}
+            loading={loading}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

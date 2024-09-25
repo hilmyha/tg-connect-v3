@@ -73,8 +73,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setAuthenticated(true); // Set authenticated ke true setelah login berhasil
       router.replace("(tabs)/home");
     } catch (error: any) {
-      throw new Error(error.message);
       setAuthenticated(false); // Pastikan set ke false jika login gagal
+      throw new Error(error.message);
     }
   };
 
