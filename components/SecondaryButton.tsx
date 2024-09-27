@@ -5,8 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 type SecondaryButtonProps = {
   onPress: () => void;
   title: string;
-  iconName?: keyof typeof Ionicons.glyphMap;
-  color?: string;
+  iconName: keyof typeof Ionicons.glyphMap;
+  color: string;
   loading: boolean;
 };
 

@@ -76,21 +76,59 @@ export default function index() {
       >
         <ProfileHeader user={user} />
         <View style={global.container}>
-          {user ? (
-            <View>
-              <Text>Profile</Text>
-              <Text>Username: {user.username}</Text>
-              <Text>Email: {user.email}</Text>
-            </View>
-          ) : (
-            <Text>Loading...</Text>
-          )}
+          <View style={{ gap: 10 }}>
+            <SecondaryButton
+              onPress={() => console.log("Edit Profile")}
+              title="Pengaturan Profil"
+              iconName="settings-sharp"
+              color={color.primary}
+              loading={loading}
+            />
+            <SecondaryButton
+              onPress={() => console.log("Ajuan")}
+              title="Ajukan Permasalahan"
+              iconName="cloud-upload"
+              color={color.primary}
+              loading={loading}
+            />
+            <SecondaryButton
+              onPress={() => console.log("Panduan")}
+              title="Panduan Aplikasi"
+              iconName="document-text"
+              color={color.primary}
+              loading={loading}
+            />
+          </View>
 
-          <Text style={global.textSecondary}>Administrator</Text>
+          {
+            // Jika user adalah admin, tampilkan menu ini
+            user?.is_admin === false && (
+              <>
+                <Text style={global.textSecondary}>Administrator</Text>
+                <View style={{ gap: 10 }}>
+                  <SecondaryButton
+                    onPress={() => console.log("Edit Profile")}
+                    title="Rekapitulasi"
+                    iconName="podium"
+                    color={color.blue}
+                    loading={loading}
+                  />
+                  <SecondaryButton
+                    onPress={() => console.log("Ajuan")}
+                    title="Kelola Pengurus"
+                    iconName="people"
+                    color={color.blue}
+                    loading={loading}
+                  />
+                </View>
+              </>
+            )
+          }
 
+          <Text style={global.textSecondary}>Keluar aplikasi</Text>
           <SecondaryButton
             onPress={handleLogout}
-            title="Logout"
+            title="Keluar"
             iconName="exit"
             color={color.red}
             loading={loading}

@@ -7,6 +7,7 @@ export const color = {
   dark: "#333",
   white: "#fff",
   black: "#000",
+  gray: "#C0C0C0",
   blue: "#0076A9",
   red: "#C85454",
 };
@@ -53,7 +54,7 @@ export const global = StyleSheet.create({
   },
   container: {
     padding: 24,
-    gap: 16,
+    gap: 20,
   },
   text: {
     color: color.primary,
@@ -61,11 +62,17 @@ export const global = StyleSheet.create({
   textSecondary: {
     color: color.light,
   },
-  headerTitle: {
+  textHeader: {
     fontSize: 24,
     fontWeight: "bold",
-    textAlign: "center",
     color: color.secondary,
+  },
+  navButtonContainer: {
+    gap: 16,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    width: "100%",
   },
   button: {
     padding: 16,

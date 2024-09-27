@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 type ProfileHeaderProps = {
   user: {
+    nama: string;
     username: string;
     email: string;
   };
@@ -30,10 +31,14 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
               justifyContent: "center",
             }}
           >
-            <Text style={global.headerTitle}>{user.username}</Text>
-            <Ionicons size={24} name="checkmark-circle" color={color.blue} />
+            <Text style={global.textHeader}>{user.username}</Text>
+            {user.nama !== null ? (
+              <Ionicons size={24} name="checkmark-circle" color={color.blue} />
+            ) : (
+              <Ionicons size={24} name="alert-circle" color={color.red} />
+            )}
           </View>
-          <Text style={[global.text, { textAlign: "center" }]}>
+          <Text style={[global.text, { textAlign: "center", fontSize: 12 }]}>
             {user.email}
           </Text>
         </View>
