@@ -76,6 +76,9 @@ export default function index() {
       >
         <ProfileHeader user={user} />
         <View style={global.container}>
+          <Text style={global.textSecondary}>
+            
+          </Text>
           <View style={{ gap: 10 }}>
             <SecondaryButton
               onPress={() => console.log("Edit Profile")}
@@ -102,7 +105,7 @@ export default function index() {
 
           {
             // Jika user adalah admin, tampilkan menu ini
-            user?.is_admin === false && (
+            user?.is_admin === true && (
               <>
                 <Text style={global.textSecondary}>Administrator</Text>
                 <View style={{ gap: 10 }}>

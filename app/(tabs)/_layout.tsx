@@ -30,6 +30,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="informasi"
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="newspaper" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="person" color={color} />,

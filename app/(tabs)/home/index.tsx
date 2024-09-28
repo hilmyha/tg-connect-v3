@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  TouchableOpacity,
   SafeAreaView,
   ScrollView,
   RefreshControl,
@@ -86,7 +85,7 @@ export default function index() {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <View style={global.container}>
+        <View style={[global.container, {marginTop: 24}]}>
           <HomeHeader user={user} />
 
           <CategoryNavigation />
