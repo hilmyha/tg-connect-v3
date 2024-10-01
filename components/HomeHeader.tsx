@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import React from "react";
-import { global } from "../constant";
+import { color, global } from "../constant";
 
 type HomeHeaderProps = {
   user: {
     username: string;
-  };
+  } | null; // Mengijinkan user untuk null saat data belum ada
+  loading: boolean;
 };
 
 // buat sambutan waktu pagi, siang, sore, atau malam
@@ -23,10 +24,12 @@ const getGreeting = () => {
   }
 };
 
-export default function HomeHeader({ user }: HomeHeaderProps) {
+export default function HomeHeader({ user, loading }: HomeHeaderProps) {
   return (
     <View>
-      {user ? (
+      {loading ? (
+        <View style={[{ backgroundColor: color.light, padding: 16, width: "60%", borderRadius: 8 }]} />
+      ) : user ? (
         <Text
           style={[
             global.textHeader,

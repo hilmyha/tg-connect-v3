@@ -48,6 +48,27 @@ export const tabScreen = StyleSheet.create({
   },
 });
 
+export const tabUndangan = StyleSheet.create({
+  container: {
+    padding: 0,
+  },
+  row: {
+    flexDirection: "row",
+  },
+  label: {
+    flex: 2,
+    fontSize: 14,
+  },
+  separator: {
+    flex: 0.3,
+    fontSize: 14,
+  },
+  value: {
+    flex: 4,
+    fontSize: 14,
+  },
+});
+
 export const global = StyleSheet.create({
   background: {
     backgroundColor: color.secondary,

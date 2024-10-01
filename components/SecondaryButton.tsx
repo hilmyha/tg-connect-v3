@@ -26,7 +26,7 @@ export default function SecondaryButton({
       <View style={styles.sparation}>
         <Ionicons name={iconName} size={20} color="white" />
         <Text style={{ color: "white", fontSize: 15 }}>
-          {loading ? "Loading..." : title}
+          {loading ? "" : title}
         </Text>
       </View>
       <Ionicons name="chevron-forward" size={20} color="white" />

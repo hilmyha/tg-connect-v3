@@ -14,7 +14,7 @@ import CategoryNavigation from "../../../components/CategoryNavigation";
 import { Ionicons } from "@expo/vector-icons";
 import { getInformasi } from "../../../services/informasiService";
 import InformasiCard from "../../../components/InformasiCard";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
 export default function index() {
   const { setAuthenticated, userId } = useAuth();
@@ -85,8 +85,8 @@ export default function index() {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <View style={[global.container, {marginTop: 24}]}>
-          <HomeHeader user={user} />
+        <View style={[global.container, { marginTop: 24 }]}>
+          <HomeHeader user={user} loading={loading} />
 
           <CategoryNavigation />
 
@@ -95,24 +95,35 @@ export default function index() {
           </Text>
 
           <View style={{ gap: 16 }}>
-            {
-              // looping data informasi
-              informasi
-                ?.sort(
-                  (a: any, b: any) =>
-                    new Date(b.created_at).getTime() -
-                    new Date(a.created_at).getTime()
-                ) // Sort dari yang terbaru
-                .slice(0, 3) // Ambil 3 data pertama
-                .map((info: any, index: number) => (
+            {loading
+              ? Array.from({ length: 3 }).map((_, index) => (
                   <InformasiCard
                     key={index}
-                    info={info}
-                    loading={loading}
+                    loading={true} // Tetapkan loading true untuk skeleton
+                    info={{ id: "", title: "", date: "", description: "" }} // Placeholder data kosong untuk skeleton
                     onPress={() => {}}
                   />
                 ))
-            }
+              : informasi
+                  ?.sort(
+                    (a: any, b: any) =>
+                      new Date(b.created_at).getTime() -
+                      new Date(a.created_at).getTime()
+                  ) // Sort dari yang terbaru
+                  .slice(0, 3) // Ambil 3 data pertama
+                  .map((info: any, index: number) => (
+                    <InformasiCard
+                      key={info.id}
+                      info={info}
+                      loading={loading}
+                      onPress={() =>
+                        router.push({
+                          pathname: "(pages)/informasi/detail",
+                          params: { id: info.id },
+                        })
+                      }
+                    />
+                  ))}
           </View>
         </View>
       </ScrollView>

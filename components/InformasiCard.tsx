@@ -10,22 +10,42 @@ import { color, global } from "../constant";
 import { Ionicons } from "@expo/vector-icons";
 
 type ButtonProps = {
-  onPress: () => void;
   info: {
+    id: string;
     title: string;
     date: string;
     description: string;
   };
+  onPress: () => void;
   loading: boolean;
 };
 
-export default function InformasiCard({ info, loading }: ButtonProps) {
+export default function InformasiCard({ info, loading, onPress }: ButtonProps) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       {loading ? (
-        <ActivityIndicator size="large" color={color.primary} />
+        <>
+          <View
+            style={[
+              styles.row,
+              { padding: 14, backgroundColor: color.gray, width: "60%", borderRadius: 8 },
+            ]}
+          />
+          <Text
+            style={[
+              global.text,
+              { fontSize: 12, color: color.gray, backgroundColor: color.gray, borderRadius: 8 },
+            ]}
+          />
+          <Text
+            style={[
+              global.text,
+              { color: color.gray, backgroundColor: color.gray, borderRadius: 8 },
+            ]}
+          />
+        </>
       ) : (
-        <View>
+        <>
           <View style={styles.row}>
             <Ionicons
               name="information-circle"
@@ -34,11 +54,18 @@ export default function InformasiCard({ info, loading }: ButtonProps) {
             />
             <Text style={styles.title}>{info.title}</Text>
           </View>
-          <Text style={[global.text, { fontSize: 12 }]}>{info.date}</Text>
+          <Text style={[global.text, { fontSize: 12 }]}>
+            {new Date(info.date).toLocaleDateString("id-ID", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </Text>
           <Text style={[global.text, { color: color.primary }]}>
             {info.description}
           </Text>
-        </View>
+        </>
       )}
     </TouchableOpacity>
   );
@@ -48,7 +75,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: color.light,
     padding: 16,
-    gap: 8,
+    gap: 5,
     borderRadius: 12,
   },
   row: {

@@ -43,7 +43,14 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
           </Text>
         </View>
       ) : (
-        <Text>Loading...</Text>
+        <View
+          style={{
+            backgroundColor: color.gray,
+            borderRadius: 12,
+            padding: 12,
+            width: "40%",
+          }}
+        />
       )}
     </View>
   );

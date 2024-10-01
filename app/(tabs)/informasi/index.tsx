@@ -10,7 +10,7 @@ import { global } from "../../../constant";
 import Header from "../../../components/Header";
 import { getInformasi } from "../../../services/informasiService";
 import InformasiCard from "../../../components/InformasiCard";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
 export default function index() {
   const [informasi, setInformasi] = useState<any>(null);
@@ -58,14 +58,28 @@ export default function index() {
       >
         <Header title="Informasi" subtitle="Berita kegiatan sekitar" />
         <View style={global.container}>
-          {informasi?.map((info: any, index: number) => (
-            <InformasiCard
-              key={index}
-              info={info}
-              loading={loading}
-              onPress={() => {}}
-            />
-          ))}
+          {loading
+            ? Array.from({ length: 5 }).map((_, index) => (
+                <InformasiCard
+                  key={index}
+                  loading={true} // Tetapkan loading true untuk skeleton
+                  info={{ id: "", title: "", date: "", description: "" }} // Placeholder data kosong untuk skeleton
+                  onPress={() => {}}
+                />
+              ))
+            : informasi?.map((info: any, index: number) => (
+                <InformasiCard
+                  key={index}
+                  info={info}
+                  loading={loading}
+                  onPress={() =>
+                    router.push({
+                      pathname: "(pages)/informasi/detail",
+                      params: { id: info.id },
+                    })
+                  }
+                />
+              ))}
         </View>
       </ScrollView>
     </SafeAreaView>

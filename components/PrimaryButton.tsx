@@ -27,9 +27,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#40534C",
     padding: 12,
+    gap: 6,
     borderRadius: 12,
     height: 52,
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
   },
 });

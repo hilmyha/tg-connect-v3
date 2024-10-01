@@ -9,17 +9,17 @@ export default function AppLayout() {
     <Stack
       screenOptions={{
         headerShown: true,
-        headerTintColor: color.primary,
-        statusBarColor: color.primary,
+        headerTintColor: color.secondary,
+        statusBarColor: color.secondary,
         headerShadowVisible: false,
         headerTitleAlign: "center",
         headerTitleStyle: {
           fontSize: 24,
           fontWeight: "bold",
-          color: color.primary,
+          color: color.secondary,
         },
         headerStyle: {
-          backgroundColor: color.primary,
+          backgroundColor: color.secondary,
         },
         statusBarStyle: "light",
         headerLeft: () => (
@@ -32,13 +32,6 @@ export default function AppLayout() {
           </TouchableOpacity>
         ),
       }}
-    >
-      <Stack.Screen
-        name="index"
-        options={{
-          title: "",
-        }}
-      />
-    </Stack>
+    />
   );
 }

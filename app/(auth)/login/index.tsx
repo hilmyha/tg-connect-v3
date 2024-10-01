@@ -50,7 +50,7 @@ export default function index() {
       >
         <View style={auth.container}>
           <View style={[global.container, auth.section]}>
-            <Text style={global.headerTitle}>Selamat datang kembali!</Text>
+            <Text style={global.textHeader}>Selamat datang kembali!</Text>
             <InputText
               placeholder="Username"
               value={username}

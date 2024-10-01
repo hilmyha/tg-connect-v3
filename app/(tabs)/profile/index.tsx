@@ -6,6 +6,7 @@ import {
   ScrollViewBase,
   SafeAreaView,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthProvider";
@@ -76,9 +77,7 @@ export default function index() {
       >
         <ProfileHeader user={user} />
         <View style={global.container}>
-          <Text style={global.textSecondary}>
-            
-          </Text>
+          <Text style={global.textSecondary}></Text>
           <View style={{ gap: 10 }}>
             <SecondaryButton
               onPress={() => console.log("Edit Profile")}
@@ -105,7 +104,7 @@ export default function index() {
 
           {
             // Jika user adalah admin, tampilkan menu ini
-            user?.is_admin === true && (
+            user?.is_admin === false && (
               <>
                 <Text style={global.textSecondary}>Administrator</Text>
                 <View style={{ gap: 10 }}>
